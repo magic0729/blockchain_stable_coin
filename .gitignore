@@ -11,6 +11,9 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 
+# Deployment files (generated)
+deployments/
+
 # Hardhat files
 cache/
 artifacts/

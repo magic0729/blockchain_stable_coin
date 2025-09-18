@@ -23,18 +23,27 @@ contracts/
   Oracle.sol            # Prices, reserves snapshot, source management
 scripts/
   deploy.js             # Local deploy
-  deploy-testnet.js     # Testnet deploy (with confirmations)
+  deploy-testnet.js     # Testnet deploy (basic)
+  deploy-testnet-with-proof.js  # Testnet deploy with proof generation ⭐
   deploy-mainnet.js     # Mainnet deploy (caution)
+  verify-contracts.js   # Automated contract verification
+  generate-proof-links.js # Generate proof links from deployment
   test-all.js           # Convenience runner for tests/coverage
 test/
   Stablecoin.test.js
   ReserveManager.test.js
   Oracle.test.js
+deployments/            # Generated deployment info and proof files (auto-created)
+  {network}-{timestamp}.json
+  proof-{network}-{timestamp}.json
+  proof-{network}-{timestamp}.md
 docs/
   architecture.md
   regulatory-framework.md
+  TESTNET_DEPLOYMENT_GUIDE.md  # Detailed testnet deployment guide
 hardhat.config.js
 package.json
+env.example             # Environment template
 ```
 
 ## Setup
@@ -45,8 +54,14 @@ Prereqs: Node.js 18+, npm 8+, Git
 npm install
 ```
 
-2) Environment (optional for deploy/testnet/mainnet)
-Create `env.example` → `.env` and fill RPCs and keys.
+2) Environment (required for testnet/mainnet deployment)
+```bash
+cp env.example .env
+# Edit .env with your actual values:
+# - TESTNET_RPC_URL (Infura/Alchemy)
+# - PRIVATE_KEY (your wallet private key) 
+# - ETHERSCAN_API_KEY (for verification)
+```
 
 ## Quick Test Run
 ```
@@ -63,8 +78,11 @@ Windows PowerShell users: commands are the same; no special shell flags needed.
   - Oracle: `npm run test:oracle`
 - Local node: `npm run node`
 - Local deploy: `npm run deploy:local`
+- **Testnet deploy with proof**: `npm run deploy:testnet:proof` ⭐
 - Testnet deploy: `npm run deploy:testnet`
 - Mainnet deploy: `npm run deploy:mainnet` (caution)
+- Verify contracts: `npm run verify:contracts`
+- Generate proof links: `npm run generate:proof`
 - Coverage: `npm run coverage`
 - Lint: `npm run lint`
 - Gas report (PowerShell): `$env:REPORT_GAS=1; npx hardhat test; $env:REPORT_GAS=$null`
@@ -92,6 +110,48 @@ Note: Price/confidence/validity windows are enforced in contract checks. Values 
 - If you see "Stack too deep", we enable Solidity via-IR in `hardhat.config.js`.
 - Ethers v6 is required by the toolchain. If a test errors on `getAddress`, ensure `ethers` is `^6.x` in `package.json` and reinstall.
 - Use Node 18+.
+
+## Testnet Deployment with On-Chain Proof
+
+### Quick Start
+1) **Set up environment**:
+   ```bash
+   cp env.example .env
+   # Edit .env with your actual values:
+   # - TESTNET_RPC_URL (get from Infura/Alchemy)
+   # - PRIVATE_KEY (your wallet private key - 64 chars)
+   # - ETHERSCAN_API_KEY (get from Etherscan)
+   ```
+
+2) **Deploy with proof generation**:
+   ```bash
+   npm run deploy:testnet:proof
+   ```
+
+3) **Verify contracts** (optional but recommended):
+   ```bash
+   npm run verify:contracts
+   ```
+
+### What You Get
+- ✅ Contract addresses on blockchain explorer
+- ✅ Deployment transaction hashes
+- ✅ Verification commands
+- ✅ JSON and Markdown proof files
+- ✅ Ready-to-share proof links
+
+### Supported Testnets
+- **Sepolia** (recommended) - Chain ID: 11155111
+- **Goerli** - Chain ID: 5
+- **Mumbai** (Polygon) - Chain ID: 80001
+- **BSC Testnet** - Chain ID: 97
+- **Arbitrum Sepolia** - Chain ID: 421614
+
+### Getting Testnet ETH
+- **Sepolia**: [Sepolia Faucet](https://sepoliafaucet.com/)
+- **Goerli**: [Goerli Faucet](https://goerlifaucet.com/)
+- **Mumbai**: [Mumbai Faucet](https://faucet.polygon.technology/)
+- **BSC Testnet**: [BSC Faucet](https://testnet.bnbchain.org/faucet-smart)
 
 ## Demo Flow (Local)
 1) Start local chain
