@@ -1,0 +1,70 @@
+{
+  "name": "gold-backed-stablecoin",
+  "version": "1.0.0",
+  "description": "Gold-backed stablecoin project with LSE bond collateralization",
+  "main": "index.js",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "test:all": "node scripts/test-all.js",
+    "test:stablecoin": "hardhat test test/Stablecoin.test.js",
+    "test:reserve": "hardhat test test/ReserveManager.test.js",
+    "test:oracle": "hardhat test test/Oracle.test.js",
+    "deploy": "hardhat run scripts/deploy.js",
+    "deploy:local": "hardhat run scripts/deploy.js --network localhost",
+    "deploy:testnet": "hardhat run scripts/deploy-testnet.js --network testnet",
+    "deploy:mainnet": "hardhat run scripts/deploy-mainnet.js --network mainnet",
+    "verify": "hardhat verify",
+    "verify:testnet": "hardhat verify --network testnet",
+    "verify:mainnet": "hardhat verify --network mainnet",
+    "coverage": "hardhat coverage",
+    "lint": "solhint 'contracts/**/*.sol'",
+    "lint:fix": "solhint 'contracts/**/*.sol' --fix",
+    "size": "hardhat size-contracts",
+    "gas-report": "REPORT_GAS=true hardhat test",
+    "node": "hardhat node",
+    "clean": "hardhat clean",
+    "reset": "hardhat clean && npm install",
+    "build": "npm run compile && npm run test",
+    "deploy:full": "npm run build && npm run deploy:testnet"
+  },
+  "keywords": [
+    "stablecoin",
+    "gold",
+    "blockchain",
+    "ethereum",
+    "defi",
+    "collateral",
+    "bonds",
+    "lse",
+    "ni43-101"
+  ],
+  "author": "Gold-Backed Stablecoin Team",
+  "license": "MIT",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^3.0.0",
+    "@openzeppelin/contracts": "^4.9.3",
+    "@openzeppelin/contracts-upgradeable": "^4.9.3",
+    "hardhat": "^2.17.1",
+    "hardhat-gas-reporter": "^1.0.9",
+    "solidity-coverage": "^0.8.4",
+    "solhint": "^4.0.0",
+    "dotenv": "^16.3.1"
+  },
+  "dependencies": {
+    "@chainlink/contracts": "^0.6.1",
+    "ethers": "^6.14.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gold-backed-stablecoin/contracts.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gold-backed-stablecoin/contracts/issues"
+  },
+  "homepage": "https://github.com/gold-backed-stablecoin/contracts#readme"
+}
